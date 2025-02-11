@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Square } from './components/Square'
-import { AIPlayer } from './components/AIPlayer';
+import { AIPlayer } from './components/AIPlayer.ts';
 
 function App() {
 
+  // 
+  const winningPatterns = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6],
+    [0,3,6],
+    [1,4,7]
+  ];
+
   // create aiPlayer object to use his functions
-  const aiPlayer = new AIPlayer();
+  const aiPlayer = new AIPlayer(winningPatterns);
 
   // board consists of an array of rows containing 3 squares
   const [board, setBoard] = useState<string[]>(Array(9).fill(''));
@@ -25,17 +37,6 @@ function App() {
 
 
   function calculateWinner() {
-    const winningPatterns = [
-      [0,1,2],
-      [3,4,5],
-      [6,7,8],
-      [2,5,8],
-      [0,4,8],
-      [2,4,6],
-      [0,3,6],
-      [1,4,7]
-    ];
-
     for (let i = 0; i < winningPatterns.length; i++) {
       const [x,y,z] = winningPatterns[i];
 
@@ -119,6 +120,7 @@ function App() {
     if (!isPlayerXTurn && pcEnabled) {
       const randSelection : number = aiPlayer.makeTurn(board);
       updateSquare(randSelection);
+      let winningPatterns = undefined;
     }
   }, [board, isPlayerXTurn]);
 
