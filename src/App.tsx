@@ -90,15 +90,13 @@ function App() {
   }
 
   // is runned in the background each time board or isPlayerXTurn changes
+  // it's called after each player's turn
   useEffect(() => {
 
     const checkDraw = () => board.every((square) => (square !== ''));
     if (!calculateWinner() && checkDraw()) {
       console.log("Draw");
       setStatus('This is a draw! Please restart the game.');
-      setTimeout(() => {
-        // reset Game
-      }, 2000);
 
     }
     else if (calculateWinner()) {
