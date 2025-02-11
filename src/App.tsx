@@ -56,7 +56,7 @@ function App() {
    * 
    * @param currentSquare number of actual selected square
    */
-  function updateSquare(actualSquare :number) {
+  function updateSquare(actualSquare : number) {
     // translate scuareNumber into board structure
     /*const rowIndex = Math.floor(currentSquare / 3);
     const colIndex = currentSquare % 3;
@@ -97,7 +97,6 @@ function App() {
     if (!calculateWinner() && checkDraw()) {
       console.log("Draw");
       setStatus('This is a draw! Please restart the game.');
-
     }
     else if (calculateWinner()) {
       setStatus(`Player ${isPlayerXTurn ? 'O' : 'X'} wins the game`);
