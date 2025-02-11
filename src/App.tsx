@@ -10,8 +10,11 @@ function App() {
   // stores the state of the actual player's turn
   const [isPlayerXTurn, setIsPlayerXTurn] = useState<boolean>(true);
 
-  // maintain status
-  const [status, setStatus] = useState('');
+  // stores the message for the end of the game (win, draw)
+  const [status, setStatus] = useState<string>('');
+
+  // boolean for checking if game is finished
+  const [finished, setFinished] = useState<boolean>(false);
 
 
   function calculateWinner() {
@@ -37,16 +40,10 @@ function App() {
     return null;
   }
 
-  /**
-  const resetGame = () => {
-    setBoard([
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', '']
-    ])
-  };
+  const resetGame = () => { setBoard(Array(9).fill('')) };
 
-  // this is called only once because no dependencies are set 
+  // this is called only once because no dependencies are set
+  /** 
   useEffect(() => {
     resetGame();
   }, []); */
@@ -97,9 +94,11 @@ function App() {
     if (!calculateWinner() && checkDraw()) {
       console.log("Draw");
       setStatus('This is a draw! Please restart the game.');
+      setFinished(true);
     }
     else if (calculateWinner()) {
       setStatus(`Player ${isPlayerXTurn ? 'O' : 'X'} wins the game`);
+      setFinished(true);
     }
     else {
       setStatus(`It is the turn of player: ${isPlayerXTurn ? 'X' : 'O'}`)
@@ -124,6 +123,7 @@ function App() {
         <Square value={board[8]} onClick={() => updateSquare(8)} />  
       </div>
       <h1>{status}</h1>
+      <button style={{visibility: finished? 'visible' : 'hidden'}} onClick={() => {resetGame()}}>Reload</button>
     </div>
   )
 }
