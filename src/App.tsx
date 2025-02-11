@@ -16,6 +16,9 @@ function App() {
   // boolean for checking if game is finished
   const [finished, setFinished] = useState<boolean>(false);
 
+  // 
+  const [pcEnabled, setPCEnabled] = useState<boolean>(false);
+
 
   function calculateWinner() {
     const winningPatterns = [
@@ -107,6 +110,20 @@ function App() {
     else {
       setStatus(`It is the turn of player: ${isPlayerXTurn ? 'X' : 'O'}`)
     }
+
+    // AI Turn if activated
+    if (!isPlayerXTurn && pcEnabled) {
+      let allFields = board;
+
+      // list of tuples consisting of the field marker and the index in the board array
+      const fieldsTuples : [string, number][] = allFields.map((el, index) => [el, index]);
+
+      // list of field positions of all free fields in the game
+      const freeFieldsIndices : number[] = fieldsTuples.filter(el => el[0] === '').map(el => el[1]);
+      const randSelection : number = freeFieldsIndices[Math.floor(Math.random() * freeFieldsIndices.length)];
+      console.log("")
+      updateSquare(randSelection);
+    }
   }, [board, isPlayerXTurn]);
 
   return (
@@ -128,6 +145,7 @@ function App() {
       </div>
       <h1>{status}</h1>
       <button style={{visibility: finished? 'visible' : 'hidden'}} onClick={() => {resetGame()}}>Reload</button>
+      <button onClick={() => {setPCEnabled(!pcEnabled)}}>{`PC Player ${!pcEnabled ? 'activate' : 'deactivate'}`}</button>
     </div>
   )
 }
