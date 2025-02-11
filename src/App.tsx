@@ -40,7 +40,11 @@ function App() {
     return null;
   }
 
-  const resetGame = () => { setBoard(Array(9).fill('')) };
+  // reset the game by resetting all states 
+  const resetGame = () => {
+    setBoard(Array(9).fill(''));
+    setFinished(false);
+  };
 
   // this is called only once because no dependencies are set
   /** 
