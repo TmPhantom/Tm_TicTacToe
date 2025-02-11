@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Square } from './components/Square'
+import { AIPlayer } from './components/AIPlayer';
 
 function App() {
+
+  // create aiPlayer object to use his functions
+  const aiPlayer = new AIPlayer();
 
   // board consists of an array of rows containing 3 squares
   const [board, setBoard] = useState<string[]>(Array(9).fill(''));
@@ -113,15 +117,7 @@ function App() {
 
     // AI Turn if activated
     if (!isPlayerXTurn && pcEnabled) {
-      let allFields = board;
-
-      // list of tuples consisting of the field marker and the index in the board array
-      const fieldsTuples : [string, number][] = allFields.map((el, index) => [el, index]);
-
-      // list of field positions of all free fields in the game
-      const freeFieldsIndices : number[] = fieldsTuples.filter(el => el[0] === '').map(el => el[1]);
-      const randSelection : number = freeFieldsIndices[Math.floor(Math.random() * freeFieldsIndices.length)];
-      console.log("")
+      const randSelection : number = aiPlayer.makeTurn(board);
       updateSquare(randSelection);
     }
   }, [board, isPlayerXTurn]);
